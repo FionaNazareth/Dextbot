@@ -7,9 +7,7 @@ from flask import Flask, render_template, request
 name = None
 flag = 0
 bot = None
-answers = [
-    ("Dexter", "Welcome to the Service. What is your Name?")
-]
+answers = []
 
 # main
 app = Flask(__name__)
@@ -18,44 +16,23 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     BotInit()
+    answers = []
     return render_template('index.html', ans=answers)
 
 
 @app.route('/answer', methods=['POST'])
 def answer():
-    global flag, name
-    if flag == 0:
-        name = request.form.get("query")
-        flag = 1
-        answers.append(
-            (
-                name,
-                request.form.get("query")
-            )
-        )
+    answers.append(("Human", request.form.get('query')))
+    if request.form.get('query').lower().startswith("bye"):
+        home()
+    else:
+        response = Chatbot(request.form.get('query'))
         answers.append(
             (
                 "Dexter",
-                "How Can I Help You?"
+                response
             )
         )
-    else:
-        answers.append(
-            (
-                name,
-                request.form.get("query")
-            )
-        )
-        if request.form.get('query').lower().startswith("bye"):
-            home()
-        else:
-            response = Chatbot(request.form.get('query'))
-            answers.append(
-                (
-                    "Dexter",
-                    response
-                )
-            )
     return render_template('index.html', ans=answers)
 
 
@@ -68,6 +45,9 @@ def BotInit():
     # Training bot
     trainer = ChatterBotCorpusTrainer(bot)
     trainer.train("chatterbot.corpus.english")
+    #bot.set_trainer(ChatterBotCorpusTrainer)
+    #bot.train("chatterbot.corpus.english")
+    print(bot)
 
 
 def Chatbot(query):
