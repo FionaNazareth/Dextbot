@@ -4,9 +4,9 @@ from chatterbot.trainers import ChatterBotCorpusTrainer
 from flask import Flask, render_template, request
 
 # variables
-name =''
+name = None
 flag = 0
-bot = ''
+bot = None
 answers = [
     ("Dexter", "Welcome to the Service. What is your Name?")
 ]
@@ -14,17 +14,10 @@ answers = [
 # main
 app = Flask(__name__)
 
-# Intialize the bot
-bot = ChatBot("Dexter",
-              logic_adapters=['chatterbot.logic.BestMatch',
-                              'chatterbot.logic.MathematicalEvaluation'])
-# Training bot
-trainer = ChatterBotCorpusTrainer(bot)
-trainer.train("chatterbot.corpus.english")
-
 
 @app.route('/')
 def home():
+    BotInit()
     return render_template('index.html', ans=answers)
 
 
@@ -66,10 +59,21 @@ def answer():
     return render_template('index.html', ans=answers)
 
 
+def BotInit():
+    # Intialize the bot
+    global bot
+    bot = ChatBot("Dexter",
+                  logic_adapters=['chatterbot.logic.BestMatch',
+                                  'chatterbot.logic.MathematicalEvaluation'])
+    # Training bot
+    trainer = ChatterBotCorpusTrainer(bot)
+    trainer.train("chatterbot.corpus.english")
+
+
 def Chatbot(query):
+    global bot
     response = bot.get_response(query)
     return response
-
 
 if __name__ == '__main__':
     app.run(debug=True)
