@@ -12,10 +12,18 @@ answers = []
 # main
 app = Flask(__name__)
 
+bot = ChatBot("Dexter", logic_adapters=['chatterbot.logic.BestMatch', 'chatterbot.logic.MathematicalEvaluation'])
+
+# Training bot
+trainer = ChatterBotCorpusTrainer(bot)
+trainer.train("chatterbot.corpus.english")
+#bot.set_trainer(ChatterBotCorpusTrainer)
+#bot.train("chatterbot.corpus.english")
+
 
 @app.route('/')
 def home():
-    BotInit()
+    # BotInit()
     answers = []
     return render_template('index.html', ans=answers)
 
@@ -26,7 +34,8 @@ def answer():
     if request.form.get('query').lower().startswith("bye"):
         home()
     else:
-        response = Chatbot(request.form.get('query'))
+        # response = Chatbot(request.form.get('query'))
+        response = bot.get_response(request.form.get('query'))
         answers.append(
             (
                 "Dexter",
@@ -36,19 +45,19 @@ def answer():
     return render_template('index.html', ans=answers)
 
 
-def BotInit():
-    # Intialize the bot
-    global bot
-    bot = ChatBot("Dexter",
-                  logic_adapters=['chatterbot.logic.BestMatch',
-                                  'chatterbot.logic.MathematicalEvaluation'])
-    # Training bot
-    trainer = ChatterBotCorpusTrainer(bot)
-    trainer.train("chatterbot.corpus.english")
-    #bot.set_trainer(ChatterBotCorpusTrainer)
-    #bot.train("chatterbot.corpus.english")
-    print(bot)
-
+# def BotInit():
+#     # Intialize the bot
+#     global bot
+#     bot = ChatBot("Dexter",
+#                   logic_adapters=['chatterbot.logic.BestMatch',
+#                                   'chatterbot.logic.MathematicalEvaluation'])
+#     # Training bot
+#     trainer = ChatterBotCorpusTrainer(bot)
+#     trainer.train("chatterbot.corpus.english")
+#     #bot.set_trainer(ChatterBotCorpusTrainer)
+#     #bot.train("chatterbot.corpus.english")
+#     print(bot)
+#
 
 def Chatbot(query):
     global bot
