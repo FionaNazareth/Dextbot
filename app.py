@@ -21,6 +21,7 @@ def home():
 
 @app.route('/answer', methods=['POST'])
 def answer():
+    global flag
     if flag == 0:
         bot = BotInit()
         flag = 1
