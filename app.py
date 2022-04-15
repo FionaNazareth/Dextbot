@@ -15,15 +15,14 @@ app = Flask(__name__)
 bot = ChatBot("Dexter", logic_adapters=['chatterbot.logic.BestMatch', 'chatterbot.logic.MathematicalEvaluation'])
 
 # Training bot
-trainer = ChatterBotCorpusTrainer(bot)
-trainer.train("chatterbot.corpus.english")
-#bot.set_trainer(ChatterBotCorpusTrainer)
-#bot.train("chatterbot.corpus.english")
+# trainer = ChatterBotCorpusTrainer(bot)
+# trainer.train("chatterbot.corpus.english")
+bot.set_trainer(ChatterBotCorpusTrainer)
+bot.train("chatterbot.corpus.english")
 
 
 @app.route('/')
 def home():
-    # BotInit()
     answers = []
     return render_template('index.html', ans=answers)
 
@@ -43,26 +42,6 @@ def answer():
             )
         )
     return render_template('index.html', ans=answers)
-
-
-# def BotInit():
-#     # Intialize the bot
-#     global bot
-#     bot = ChatBot("Dexter",
-#                   logic_adapters=['chatterbot.logic.BestMatch',
-#                                   'chatterbot.logic.MathematicalEvaluation'])
-#     # Training bot
-#     trainer = ChatterBotCorpusTrainer(bot)
-#     trainer.train("chatterbot.corpus.english")
-#     #bot.set_trainer(ChatterBotCorpusTrainer)
-#     #bot.train("chatterbot.corpus.english")
-#     print(bot)
-#
-
-def Chatbot(query):
-    global bot
-    response = bot.get_response(query)
-    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
