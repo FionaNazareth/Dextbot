@@ -5,8 +5,6 @@ from flask import Flask, render_template, request
 
 # variables
 name = None
-flag = 0
-bot = None
 answers = []
 
 # main
