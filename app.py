@@ -23,7 +23,11 @@ def home():
 
 
 @app.route('/answer', methods=['POST'])
-@app.before_first_request
+if flag == 0:
+    flag = 1
+elif flag == 1:
+    @app.before_first_request
+   
 def answer():
     global bot
     print("Answer:", bot)
