@@ -16,12 +16,12 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     BotInit()
+    print("home:", bot)
     return render_template('index.html', ans=answers)
 
 
 @app.route('/answer', methods=['POST'])
 def answer():
-    global bot
     print("Answer:", bot)
     answers.append(("Human", request.form.get('query')))
     if request.form.get('query').lower().startswith("bye"):
@@ -48,7 +48,7 @@ def BotInit():
     #trainer.train("chatterbot.corpus.english")
     bot.set_trainer(ChatterBotCorpusTrainer)
     bot.train("chatterbot.corpus.english")
-    print(bot)
+    print("BotInit:", bot)
 
 if __name__ == '__main__':
     app.run(debug=True)
