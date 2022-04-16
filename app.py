@@ -22,6 +22,7 @@ def home():
 
 @app.route('/answer', methods=['POST'])
 def answer():
+    global bot
     print("Answer:", bot)
     answers.append(("Human", request.form.get('query')))
     if request.form.get('query').lower().startswith("bye"):
