@@ -27,13 +27,12 @@ def home():
 def answer():
     global bot
     print("Answer:", bot)
-    print("list bot:", answers[0])
     print(answers)
     answers.append(("Human", request.form.get('query')))
     if request.form.get('query').lower().startswith("bye"):
         home()
     else:
-        response = answers[0].get_response(request.form.get('query'))
+        response = bot.get_response(request.form.get('query'))
         answers.append(
             (
                 "Dexter",
