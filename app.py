@@ -7,7 +7,8 @@ app = Flask(__name__)
 english_bot = ChatBot("Chatterbot", storage_adapter="chatterbot.storage.SQLStorageAdapter")
 trainer = ChatterBotCorpusTrainer(english_bot)
 trainer.train("chatterbot.corpus.english")
-answers = [english_bot]
+answers = []
+answers.append(english_bot)
 
 @app.route("/")
 def home():
