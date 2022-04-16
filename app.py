@@ -16,6 +16,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     BotInit()
+    answers.append(bot)
     print("home:", bot)
     return render_template('index.html', ans=answers)
 
@@ -24,11 +25,12 @@ def home():
 def answer():
     global bot
     print("Answer:", bot)
+    print("list bot:", answers[0])
     answers.append(("Human", request.form.get('query')))
     if request.form.get('query').lower().startswith("bye"):
         home()
     else:
-        response = bot.get_response(request.form.get('query'))
+        response = answers[0].get_response(request.form.get('query'))
         answers.append(
             (
                 "Dexter",
