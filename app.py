@@ -8,6 +8,7 @@ english_bot = ChatBot("Chatterbot", storage_adapter="chatterbot.storage.SQLStora
 trainer = ChatterBotCorpusTrainer(english_bot)
 trainer.train("chatterbot.corpus.english")
 answers = []
+count = 0
 
 @app.route("/")
 def home():
@@ -16,8 +17,13 @@ def home():
 
 @app.route('/reply', methods=['POST'])
 def reply():
+    
+    global count
     print(answers)
-    answers.append(english_bot)
+    
+    if count == 0:
+        answers.append(english_bot)
+        count = 1
 
     query = request.form.get('query')
     answers.append(("Human", query))
