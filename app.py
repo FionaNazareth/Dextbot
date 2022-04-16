@@ -23,10 +23,6 @@ def home():
 
 
 @app.route('/answer', methods=['POST'])
-if flag == 0:
-    flag = 1
-elif flag == 1:
-    @app.before_first_request
    
 def answer():
     global bot
@@ -51,7 +47,7 @@ def BotInit():
     # Intialize the bot
     bot = ChatBot("Dexter",
                   logic_adapters=['chatterbot.logic.BestMatch',
-                                  'chatterbot.logic.MathematicalEvaluation'])
+                                  'chatterbot.logic.MathematicalEvaluation'], storage_adapter="chatterbot.storage.SQLStorageAdapter")
     # Training bot
     #trainer = ChatterBotCorpusTrainer(bot)
     #trainer.train("chatterbot.corpus.english")
