@@ -21,7 +21,9 @@ def home():
     return render_template('index.html', ans=answers)
 
 
+
 @app.route('/answer', methods=['POST'])
+@app.before_first_request
 def answer():
     global bot
     print("Answer:", bot)
