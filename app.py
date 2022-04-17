@@ -9,7 +9,6 @@ trainer = ChatterBotCorpusTrainer(english_bot)
 trainer.train("chatterbot.corpus.english")
 answers = []
 
-
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -19,6 +18,7 @@ def home():
 def reply():
     print(answers)
     answers.append(english_bot)
+
     query = request.form.get('query')
     answers.append(("Human", query))
     print("User query:", query)
